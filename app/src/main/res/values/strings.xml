@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MilloraBCN</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="accessToken">pk.eyJ1IjoibmVoYWxlbSIsImEiOiJjaWt5ZGI0M2wwMTFxdXlrc29yaGk2andnIn0.O6NXAAMVWVdql-B2Q2j4sw</string>
+
+</resources>
