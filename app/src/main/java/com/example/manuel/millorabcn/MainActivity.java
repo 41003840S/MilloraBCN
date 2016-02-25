@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,7 +18,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
     private TabLayout tabLayout;
 
     @Override
@@ -32,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (CustomViewPager) findViewById(R.id.viewpager);
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,17 +69,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(CustomViewPager viewPager) {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MapFragment(), "PLÀNOL");
         adapter.addFragment(new MainActivityFragment(), "REPORTS");
         viewPager.setAdapter(adapter);
+        viewPager.setPagingEnabled(false);
     }
 }
 
 class ViewPagerAdapter extends FragmentPagerAdapter {
-
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 

@@ -2,7 +2,6 @@ package com.example.manuel.millorabcn;
 
 import android.app.Application;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,7 +15,6 @@ import org.greenrobot.eventbus.EventBus;
 public class MyApplication extends Application implements LocationListener {
 
     Location location;
-    ProgressDialog progressDialog;
     private LocationManager locationManager;
 
     @Override
@@ -28,19 +26,11 @@ public class MyApplication extends Application implements LocationListener {
     public void onCreate() {
         super.onCreate();
 
-        //ProgressDialog que se muestra hasta que la aplicacion coge la localizacion
-        /*progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Locating");
-        progressDialog.show();*/
-
         // Acquire a reference to the system Location Manager
         locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
 
         // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-
-        // Intent intent = new Intent(this, MapActivity.class);
-        //startActivity(intent);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 50, this);
     }
 
     @Override
@@ -55,16 +45,20 @@ public class MyApplication extends Application implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        this.location = location;
-        Toast.makeText(MyApplication.this, location.getLatitude() +", " + location.getLongitude() , Toast.LENGTH_SHORT).show();
 
-        EventBus.getDefault().post(new OnLocationChangedEvent(location));
-        //progressDialog.hide();
-//        Intent intent = new Intent(this, MapFragment.class);
-//        intent.putExtra("latitude", this.location.getLatitude());
-//        intent.putExtra("longitude", this.location.getLongitude());
-//        Log.e("LATITUDE_ENVIANDO", this.location.getLatitude() + " -------------------------");
-//        Log.e("LONGITUDE_ENVIANDO", this.location.getLongitude() + " -------------------------");
+        this.location = location;
+        //Enviamos la localizacion al EventBus (LocationChangedEvent)
+        EventBus.getDefault().post(new LocationChangedEvent(location));
+        Log.e("LATITUDE_ENVIANDO", this.location.getLatitude() + " -------------------------");
+        Log.e("LONGITUDE_ENVIANDO", this.location.getLongitude() + " -------------------------");
+
+        Toast.makeText(MyApplication.this, location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+
+          //No se puede hacer un intent porque se lo mando a un fragment!
+         /*Intent intent = new Intent(this, MapFragment.class);
+         intent.putExtra("latitude", this.location.getLatitude());
+         intent.putExtra("longitude", this.location.getLongitude());*/
+
     }
 
     @Override

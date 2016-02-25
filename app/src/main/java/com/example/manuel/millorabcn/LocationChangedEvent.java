@@ -5,7 +5,7 @@ import android.location.Location;
 /**
  * Created by Manuel on 24/02/2016.
  */
-public class OnLocationChangedEvent {
+public class LocationChangedEvent {
     Location location;
 
     public Location getLocation() {
@@ -16,7 +16,7 @@ public class OnLocationChangedEvent {
         this.location = location;
     }
 
-    public OnLocationChangedEvent(Location location) {
+    public LocationChangedEvent(Location location) {
         this.location = location;
     }
 }

@@ -2,16 +2,19 @@ package com.example.manuel.millorabcn;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
-import com.mapbox.mapboxsdk.constants.Style;
+import com.mapbox.mapboxsdk.constants.MyLocationTracking;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.geometry.LatLngZoom;
 import com.mapbox.mapboxsdk.views.MapView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -25,16 +28,21 @@ public class MapFragment extends Fragment {
     double latitude;
     double longitude;
 
+    public MapFragment() {
+        // Required empty public constructor
+    }
+
+    //Nos subscribimos al Evento que captura la Localizacion
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         EventBus.getDefault().register(this);
     }
 
+    //Recogemos el evento con la localizacion que nos da el LocationChangedEvent al que estamos suscritos
     @Subscribe
-    public void onLocationChangedEvent(OnLocationChangedEvent event){
-        //Recogemos el intent con la localizacion que nos da MyAplication
+    public void onLocationChangedEvent(LocationChangedEvent event){
+
         latitude = event.getLocation().getLatitude();
         longitude = event.getLocation().getLongitude();
 
@@ -43,15 +51,13 @@ public class MapFragment extends Fragment {
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(latitude,longitude))     // Sets the center of the map to Barcelona  41.3851, 2.1734
-                .zoom(11)                                  // Sets the zoom
+                .zoom(15)                                  // Sets the zoom
                 .build();
 
         mapView.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
     }
 
-    public MapFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,12 +70,17 @@ public class MapFragment extends Fragment {
 
         mapView.onCreate(savedInstanceState);
 
-        //mapView.setStyleUrl(Style.MAPBOX_STREETS);
-        mapView.setStyleUrl("mapbox://styles/nehalem/cil015xln005lc9m3f8zekb4i");
-        mapView.setRotateEnabled(false);
-        mapView.setZoomControlsEnabled(true);
+        setMap();
 
-
+        FloatingActionButton myLocationButton = (FloatingActionButton) mapFragment.findViewById(R.id.myLocationButton);
+        myLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mapView.getMyLocation() != null) { // Check to ensure coordinates aren't null, probably a better way of doing this...
+                    mapView.setCenterCoordinate(new LatLngZoom(mapView.getMyLocation().getLatitude(), mapView.getMyLocation().getLongitude(), 20), true);
+                }
+            }
+        });
 
         return mapFragment;
     }
@@ -109,5 +120,14 @@ public class MapFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
+    }
+
+    public void setMap(){
+        //mapView.setStyleUrl(Style.MAPBOX_STREETS);
+        mapView.setStyleUrl("mapbox://styles/nehalem/cil015xln005lc9m3f8zekb4i");
+        mapView.setRotateEnabled(false);
+        mapView.setMyLocationEnabled(true);
+        //mapView.setZoomControlsEnabled(true);
+        //mapView.setMyLocationTrackingMode(MyLocationTracking.TRACKING_FOLLOW);
     }
 }
