@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_addReport) {
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

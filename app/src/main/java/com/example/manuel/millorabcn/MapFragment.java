@@ -41,21 +41,20 @@ public class MapFragment extends Fragment {
 
     //Recogemos el evento con la localizacion que nos da el LocationChangedEvent al que estamos suscritos
     @Subscribe
-    public void onLocationChangedEvent(LocationChangedEvent event){
+    public void onLocationChangedEvent(LocationChangedEvent event) {
 
         latitude = event.getLocation().getLatitude();
         longitude = event.getLocation().getLongitude();
-
+        //Para verificar la posicion
         Log.e("LATITUDE_RECIBIEDO", latitude + " -------------------------");
         Log.e("LONGITUDE_RECIBIEDO", longitude + " -------------------------");
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(latitude,longitude))     // Sets the center of the map to Barcelona  41.3851, 2.1734
+                .target(new LatLng(latitude, longitude))     // Sets the center of the map to Barcelona  41.3851, 2.1734
                 .zoom(15)                                  // Sets the zoom
                 .build();
 
         mapView.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
     }
 
 
@@ -72,6 +71,7 @@ public class MapFragment extends Fragment {
 
         setMap();
 
+        //BOTON para ir a la posicion actual
         FloatingActionButton myLocationButton = (FloatingActionButton) mapFragment.findViewById(R.id.myLocationButton);
         myLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
