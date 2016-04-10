@@ -9,6 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -23,7 +28,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class MapFragment extends Fragment {
 
-    private MapView mapView = null;
+    public MapView mapView = null;
     private Location location = null;
     double latitude;
     double longitude;
@@ -81,6 +86,36 @@ public class MapFragment extends Fragment {
                 }
             }
         });
+
+        //Le decimos a Firebase que este sera el contexto
+        Firebase.setAndroidContext(getContext());
+
+        //Creamos una referencia a nuestra bd de Firebase y a su hijo
+        final Firebase notes = new Firebase("https://millorabcn.firebaseio.com/").child("reports");
+
+        notes.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                //Recorremos todas las notas que haya en ese momento
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
+
+                    //Creamos un objeto nota de ese elemento
+                    Report report = postSnapshot.getValue(Report.class);
+                    mapView.addMarker(new MarkerOptions()
+                            .position(new LatLng(report.getLatitud(), report.getLongitud()))
+                            .title(report.getTitle())
+                            .snippet("HOLAAAAAAAAAAAAA"));
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+
+        });
+
 
         return mapFragment;
     }

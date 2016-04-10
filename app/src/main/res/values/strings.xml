@@ -1,8 +1,13 @@
 <resources>
     <string name="app_name">MilloraBCN</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustos</string>
     <string name="action_addReport">Reportar incidència</string>
 
     <string name="accessToken">pk.eyJ1IjoibmVoYWxlbSIsImEiOiJjaWt5ZGI0M2wwMTFxdXlrc29yaGk2andnIn0.O6NXAAMVWVdql-B2Q2j4sw</string>
+    <string name="title_activity_add">AddActivity</string>
+
+    <string name="facebook_app_id">238675776482750</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_logout">Logout</string>
 
 </resources>

@@ -30,7 +30,7 @@ public class MyApplication extends Application implements LocationListener {
         locationManager = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
 
         // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 50, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class MyApplication extends Application implements LocationListener {
         Log.e("LATITUDE_ENVIANDO", this.location.getLatitude() + " -------------------------");
         Log.e("LONGITUDE_ENVIANDO", this.location.getLongitude() + " -------------------------");
 
-        Toast.makeText(MyApplication.this, location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MyApplication.this, location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
           //No se puede hacer un intent porque se lo mando a un fragment!
          /*Intent intent = new Intent(this, MapFragment.class);
@@ -75,4 +75,5 @@ public class MyApplication extends Application implements LocationListener {
     public void onProviderDisabled(String provider) {
 
     }
+
 }

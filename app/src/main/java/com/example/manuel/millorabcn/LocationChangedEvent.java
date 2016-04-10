@@ -8,6 +8,10 @@ import android.location.Location;
 public class LocationChangedEvent {
     Location location;
 
+    public LocationChangedEvent(Location location) {
+        this.location = location;
+    }
+
     public Location getLocation() {
         return location;
     }
@@ -16,7 +20,5 @@ public class LocationChangedEvent {
         this.location = location;
     }
 
-    public LocationChangedEvent(Location location) {
-        this.location = location;
-    }
+
 }
